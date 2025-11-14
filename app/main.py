@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-import os
 from dotenv import load_dotenv
 import traceback
 from app.routes import register_routers
@@ -21,13 +20,14 @@ app = FastAPI(
 )
 
 # CORS configuration
-frontend_url = settings.FRONTEND_URL
+allowed_origins = [origin.strip() for origin in settings.FRONTEND_ORIGIN.split(",")]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=frontend_url,
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
+    expose_headers=["*"],
 )
 
 # Register API routers
@@ -43,7 +43,6 @@ async def root():
         "version": "1.0.0",
         "status": "running",
         "docs": "/api/docs",
-        "frontend_url": frontend_url
     }
 
 

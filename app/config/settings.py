@@ -1,7 +1,7 @@
 from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
-    FRONTEND_URL: str
+    FRONTEND_ORIGIN: str
     ENV: str = "development"
     ENV_PORT: int = 10000
     GEMINI_API_KEY: str
